@@ -1,14 +1,22 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import HomePage from './pages/homepage/homepage.component';
-
+import {Route}  from 'react-router-dom';
+   const HatsPage=(props)=>{
+     console.log(props);
+     return(
+       <div>
+         HATS PAGE
+       </div>
+     )
+   }
 class App extends Component {
   render() {
     return (
-      
-       <HomePage/> 
-      
+    <div>
+      <Route exact={true} path="/" component={HomePage}></Route>
+      <Route exact={false} path="/shop/hats" component={HatsPage}></Route>
+    </div>        
     );
   }
 }
