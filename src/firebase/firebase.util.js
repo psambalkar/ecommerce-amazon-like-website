@@ -35,6 +35,31 @@ export const createUserProfileDocument=async (userAuth,additionalData)=>{
     
 
 }
+export const convertCollectionsSnapShotToMap=(collections)=>{
+    const transformedCollection=collections.docs.map(doc=>{
+        const{title,items}=doc.data();
+        return{
+            routeName:encodeURI(title.toLowerCase()),
+            id:doc.id,
+            title,
+            items
+        }
+    });
+    return transformedCollection.reduce((accumulator,collection)=>{
+        accumulator[collection.title.toLowerCase()]=collection;
+        return accumulator;
+    },{})
+
+}
+export const addCollectionsAndDocuments=async (collectionKey,objectsToAdd)=>{    //this methods add our shop data to the firestore taking collectionkey like hats ,sneaker,mens,womens ,etc and objects to nadd and stores in database
+    const CollectionRef=firestore.collection(collectionKey);
+    const batch=firestore.batch();
+    objectsToAdd.forEach(obj=>{
+        const newDocRef=CollectionRef.doc();
+        batch.set(newDocRef,obj)
+    });
+    return await batch.commit();
+}
 firebase.initializeApp(config);
 export const auth=firebase.auth();
 export const firestore=firebase.firestore();
