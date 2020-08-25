@@ -51,6 +51,14 @@ export const convertCollectionsSnapShotToMap=(collections)=>{
     },{})
 
 }
+export const getCurrentUser=()=>{
+    return new Promise((resolve,reject)=>{
+        const unsuscribe=auth.onAuthStateChanged(userAuth=>{
+            unsuscribe();
+            resolve(userAuth);
+        },reject)
+    });
+};
 export const addCollectionsAndDocuments=async (collectionKey,objectsToAdd)=>{    //this methods add our shop data to the firestore taking collectionkey like hats ,sneaker,mens,womens ,etc and objects to nadd and stores in database
     const CollectionRef=firestore.collection(collectionKey);
     const batch=firestore.batch();
@@ -63,7 +71,7 @@ export const addCollectionsAndDocuments=async (collectionKey,objectsToAdd)=>{   
 firebase.initializeApp(config);
 export const auth=firebase.auth();
 export const firestore=firebase.firestore();
-const provider=new firebase.auth.GoogleAuthProvider();
-provider.setCustomParameters({prompt:'select_account'});
-export const signInWithGoogle=()=>auth.signInWithPopup(provider);
+export const googleprovider=new firebase.auth.GoogleAuthProvider();
+googleprovider.setCustomParameters({prompt:'select_account'});
+export const signInWithGoogle=()=>auth.signInWithPopup(googleprovider);
 export default firebase;
