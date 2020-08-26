@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useEffect} from 'react';
 import './App.css';
 import {Route,Switch,Redirect}  from 'react-router-dom';
 import HomePage from './pages/homepage/homepage.component';
@@ -11,12 +11,12 @@ import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
 import {checkUserSession} from './redux/user/user.actions';
 
-class App extends Component {
+const App =({checkUserSession})=>{
  
-  unsubscribeFromAuth=null;
-  componentDidMount(){
-    const {checkUserSession}=this.props;
+  // unsubscribeFromAuth=null;
+  useEffect(()=>{
     checkUserSession();
+  },[checkUserSession]);
   //   const {setCurrentUser}=this.props;
   //   this.unsubscribeFromAuth=auth.onAuthStateChanged(   //to make user data store in our state we use this method.
   //     async userAuth=>{
@@ -33,12 +33,10 @@ class App extends Component {
   //     setCurrentUser(userAuth);//so if the user is signedout we get null so we want to set state to null
 
   // });
-}
-  componetWillUnmount(){
-    this.unsubscribeFromAuth();
-  }
 
-  render() {
+  // componetWillUnmount(){
+  //   this.unsubscribeFromAuth();
+  // }
     return (
     <div>
       <Header /> 
@@ -51,7 +49,7 @@ class App extends Component {
       </Switch>
     </div>        
     );
-  }
+  
 }
 
 // const mapStateToProps=({user})=>({
