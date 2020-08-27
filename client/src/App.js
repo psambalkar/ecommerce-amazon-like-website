@@ -1,5 +1,5 @@
 import React, { useEffect} from 'react';
-import './App.css';
+import {GlobalStyle} from './global.styles';
 import {Route,Switch,Redirect}  from 'react-router-dom';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from "./pages/shoppage/shop.component";
@@ -11,7 +11,7 @@ import {createStructuredSelector} from 'reselect';
 import {selectCurrentUser} from './redux/user/user.selectors';
 import {checkUserSession} from './redux/user/user.actions';
 
-const App =({checkUserSession})=>{
+const App =({checkUserSession,currentuser})=>{
  
   // unsubscribeFromAuth=null;
   useEffect(()=>{
@@ -39,13 +39,14 @@ const App =({checkUserSession})=>{
   // }
     return (
     <div>
+      <GlobalStyle/>
       <Header /> 
      <Switch>
       <Route  exact path="/" component={HomePage}></Route>
       <Route  path="/shop" component={ShopPage}></Route>
       <Route  exact path="/checkout" component={CheckoutPage}></Route>
 
-      <Route exact path="/signin" render={()=>{return(this.props.currentuser? (<Redirect to="/" />):(<SignInAndSignUpPage/>))}}/>
+      <Route exact path="/signin" render={()=>{return(currentuser? (<Redirect to="/" />):(<SignInAndSignUpPage/>))}}/>
       </Switch>
     </div>        
     );
